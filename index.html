@@ -1,62 +1,333 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Amrata Swami | Portfolio</title>
-  <link rel="stylesheet" href="style.css"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amrata Swami Portfolio</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: Arial, sans-serif; line-height:1.6; scroll-behavior: smooth; background:#fefefe; }
+  section { min-height:100vh; padding:80px 40px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  h1,h2,h3,h4,h5 { margin-bottom:20px; }
+  /* Hero Section */
+  .hero { background:linear-gradient(to right, #fbbf24, #fde047); color:#1f2937; text-align:center; }
+  .hero h1 { font-size:48px; opacity:0; transform:translateY(-50px); }
+  .hero h2 { font-size:32px; opacity:0; transform:translateY(-50px); }
+  .badge { background:#1f2937; color:#fbbf24; padding:20px 40px; border-radius:10px; font-size:36px; font-weight:bold; margin-bottom:30px; opacity:0; transform:scale(0); }
+  .hero-text { max-width:800px; font-size:20px; margin-bottom:30px; opacity:0; transform:translateY(50px); }
+  .links { display:flex; gap:30px; justify-content:center; opacity:0; transform:translateY(50px); }
+  .link { color:#1f2937; text-decoration:none; font-weight:bold; transition:0.3s; }
+  .link:hover { text-decoration:underline; }
+  /* Section Titles */
+  .section-title { font-size:36px; margin-bottom:30px; color:#fbbf24; opacity:0; transform:translateY(50px); }
+  /* Grid Layout */
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:30px; max-width:1200px; opacity:0; transform:translateY(50px); }
+  .card { background:#374151; padding:30px; border-radius:10px; }
+  .card h3 { color:#fbbf24; font-size:24px; margin-bottom:20px; }
+  .tags { display:flex; flex-wrap:wrap; gap:10px; }
+  .tag { background:#fbbf24; color:#1f2937; padding:8px 16px; border-radius:20px; font-weight:bold; }
+  /* Timeline */
+  .timeline { max-width:900px; display:flex; flex-direction:column; gap:20px; opacity:0; transform:translateY(50px); }
+  .item { display:flex; gap:20px; }
+  .year { min-width:100px; padding:12px 24px; border-radius:8px; font-weight:bold; font-size:20px; text-align:center; color:white; }
+  .content { flex:1; background:#374151; padding:20px; border-radius:8px; }
+  .role { font-weight:bold; font-size:20px; margin-bottom:8px; }
+  .company { color:#d1d5db; margin-bottom:5px; }
+  .client { color:#fbbf24; font-size:14px; }
+  /* Education & Achievements */
+  .edu { padding:20px; border-radius:10px; border-left:4px solid #fbbf24; margin-bottom:20px; }
+  .edu.primary { background:#fef3c7; }
+  .edu.secondary { background:#f3f4f6; border-left-color:#9ca3af; }
+  .edu-title { font-weight:bold; font-size:20px; margin-bottom:8px; }
+  .edu-inst { color:#4b5563; margin-bottom:5px; }
+  .edu-detail { font-size:14px; color:#6b7280; }
+  .achieve { padding:20px; border-radius:10px; margin-bottom:20px; }
+  .achieve.gold { background:linear-gradient(to right, #fbbf24, #f59e0b); color:#1f2937; }
+  .achieve.blue { background:linear-gradient(to right, #3b82f6, #2563eb); color:white; }
+  .achieve-title { font-weight:bold; font-size:20px; margin-bottom:10px; }
+  /* Publications */
+  .pub-card { background:#1f2937; color:white; padding:30px; border-radius:15px; max-width:1000px; margin:0 auto; opacity:0; transform:translateY(50px); }
+  .pub-title { font-size:28px; font-weight:bold; color:#fbbf24; margin-bottom:20px; line-height:1.4; }
+  .pub-detail { color:#d1d5db; line-height:1.8; margin-bottom:10px; }
+  .pub-label { font-weight:bold; color:white; }
+  .focus { background:#374151; padding:20px; border-radius:8px; margin-top:20px; }
+  .focus h4 { color:#fbbf24; font-weight:bold; margin-bottom:10px; }
+  .focus p { color:#d1d5db; line-height:1.8; }
+  /* Projects */
+  .project-grid { display:grid; grid-template-columns:1fr 1fr; gap:30px; margin-bottom:30px; opacity:0; transform:translateY(50px); }
+  .desc { color:#d1d5db; line-height:1.8; margin-bottom:15px; }
+  .features { color:#d1d5db; padding-left:25px; }
+  .features li { margin-bottom:10px; }
+  .lang-banner { background:linear-gradient(to right, #fbbf24, #f59e0b); color:#1f2937; padding:20px; border-radius:10px; margin-bottom:30px; opacity:0; transform:translateY(50px); }
+  .lang-tag { background:#1f2937; color:#fbbf24; padding:8px 16px; border-radius:20px; font-weight:bold; display:inline-block; margin-right:10px; }
+  /* Community */
+  .comm { padding:30px; border-radius:15px; max-width:1200px; margin-bottom:30px; opacity:0; transform:translateY(50px); }
+  .comm h3 { font-size:28px; font-weight:bold; color:#1f2937; margin-bottom:15px; }
+  .comm-desc { color:#4b5563; line-height:1.8; margin-bottom:20px; }
+  .highlight-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:15px; }
+  .highlight { background:white; padding:15px; border-radius:8px; }
+  .highlight-title { font-weight:bold; margin-bottom:5px; }
+  .highlight.yellow .highlight-title { color:#d97706; }
+  .highlight.blue .highlight-title { color:#2563eb; }
+  .highlight-text { font-size:14px; color:#6b7280; }
+  /* Contact */
+  .contact { background:linear-gradient(to right, #1f2937, #374151); color:white; text-align:center; padding:100px 40px; opacity:0; transform:translateY(50px); }
+  .contact h2 { font-size:48px; color:#fbbf24; margin-bottom:20px; }
+  .subtitle { font-size:20px; color:#d1d5db; margin-bottom:50px; max-width:600px; margin-left:auto; margin-right:auto; }
+  .contact-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; margin-bottom:50px; max-width:900px; margin-left:auto; margin-right:auto; }
+  .contact-card { background:#fbbf24; color:#1f2937; padding:30px; border-radius:10px; text-decoration:none; display:block; transition:0.3s; }
+  .contact-card:hover { background:#f59e0b; }
+  .contact-icon { font-size:32px; margin-bottom:10px; font-weight:bold; }
+  .contact-title { font-weight:bold; margin-bottom:8px; }
+  .contact-text { font-size:14px; }
+  .mission { background:#374151; padding:30px; border-radius:10px; max-width:700px; margin:0 auto; margin-top:20px; }
+  .mission h3 { font-size:24px; color:#fbbf24; margin-bottom:15px; }
+  .mission p { color:#d1d5db; line-height:1.8; }
+</style>
 </head>
 <body>
-  <header>
-    <h1>Amrata Swami</h1>
-    <p>Software Developer | Data Analytics | Educator</p>
-  </header>
 
-  <nav>
-    <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#publications">Publications</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+<!-- Hero Section -->
+<section class="hero">
+  <h1>Amrata Swami</h1>
+  <h2>Software Developer</h2>
+  <div class="badge">12 Years Experience</div>
+  <p class="hero-text">
+    Leveraging software engineering and analytics expertise to drive impactful, socially responsible innovation and empower others through technology.
+  </p>
+  <div class="links">
+    <a href="mailto:amratagill@gmail.com" class="link">Email: amratagill@gmail.com</a>
+    <a href="tel:+14126792755" class="link">Phone: +1 412-679-2755</a>
+  </div>
+</section>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <p>I am a Software Developer with 12 years of experience in software engineering, data analytics, and teaching. Passionate about creating social impact and driving meaningful innovation through technology.</p>
-    <h3>Education</h3>
-    <ul>
-      <li><strong>MTech</strong> in Engineering System (2020), GPA: 9.703/10</li>
-      <li><strong>BTech</strong> in Electrical & Electronics (2007), GPA: 8.4/10</li>
-    </ul>
-  </section>
+<!-- Technical Expertise -->
+<section class="dark">
+  <h2 class="section-title">Technical Expertise</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Programming Languages</h3>
+      <div class="tags">
+        <span class="tag">C</span>
+        <span class="tag">C++</span>
+        <span class="tag">C#</span>
+        <span class="tag">Java</span>
+        <span class="tag">Python</span>
+        <span class="tag">Android</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Databases</h3>
+      <div class="tags">
+        <span class="tag">MySQL</span>
+        <span class="tag">Oracle</span>
+        <span class="tag">Databricks</span>
+        <span class="tag">Snowflake</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <h3>Multilingual Language Platform</h3>
-    <p>Built an interactive platform for students to learn Indian languages using HTML, JS, PHP, and MySQL. Features include quizzes, stories, and digital assessments.</p>
-    
-    <h3>UID & Licensee Form Projects</h3>
-    <p>Led a team of 11 to develop community-wide UID and housing license systems using MySQL and automation tools, reducing overhead by over 50%.</p>
-  </section>
+<!-- Professional Journey -->
+<section class="dark">
+  <h2 class="section-title">Professional Journey 2007-2024</h2>
+  <div class="timeline">
+    <div class="item">
+      <div class="year" style="background: linear-gradient(to right, #3b82f6, #06b6d4);">2007</div>
+      <div class="content">
+        <div class="role">Senior System Analyst</div>
+        <div class="company">Infosys</div>
+        <div class="client">Client: Pfizer Pharmaceuticals</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="year" style="background: linear-gradient(to right, #10b981, #14b8a6);">2010</div>
+      <div class="content">
+        <div class="role">System Analyst</div>
+        <div class="company">Ministry of Human Resource Development</div>
+        <div class="client">Government of India</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="year" style="background: linear-gradient(to right, #a855f7, #ec4899);">2015</div>
+      <div class="content">
+        <div class="role">Lecturer</div>
+        <div class="company">Dayalbagh Educational Institute</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="year" style="background: linear-gradient(to right, #f97316, #ef4444);">2020</div>
+      <div class="content">
+        <div class="role">MTech Engineering System</div>
+        <div class="company">Dayalbagh Educational Institute</div>
+        <div class="client">GPA: 9.703/10</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="year" style="background: linear-gradient(to right, #facc15, #f97316);">2022</div>
+      <div class="content">
+        <div class="role">Software Engineer</div>
+        <div class="company">Cignet Datamatics</div>
+        <div class="client">Client: AON</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <section id="publications">
-    <h2>Publications</h2>
-    <p>“Novel Scheduling Heuristics for a Truck-and-Drone Parcel Delivery Problem”, published in Applied Intelligence in Human-Computer Interaction (CRC Press, 2023).</p>
-    <a href="https://doi.org/10.1201/9781003415466" target="_blank">Read Publication</a>
-  </section>
+<!-- Education & Achievements -->
+<section class="white">
+  <h2 class="section-title">Education and Achievements</h2>
+  <div class="grid">
+    <div>
+      <h3>Education</h3>
+      <div class="edu primary">
+        <div class="edu-title">MTech Engineering System</div>
+        <div class="edu-inst">Dayalbagh Educational Institute</div>
+        <div class="edu-detail">2020 - GPA: 9.703/10</div>
+      </div>
+      <div class="edu secondary">
+        <div class="edu-title">BTech Electrical Electronics</div>
+        <div class="edu-inst">Padmanava College of Engineering</div>
+        <div class="edu-detail">2007 - GPA: 8.4/10</div>
+      </div>
+    </div>
+    <div>
+      <h3>Achievements</h3>
+      <div class="achieve gold">
+        <div class="achieve-title">Directors Medal</div>
+        <p>Awarded for achieving the highest score in MTech program at Dayalbagh Educational Institute</p>
+      </div>
+      <div class="achieve blue">
+        <div class="achieve-title">Academic Excellence Award</div>
+        <p>Received for three consecutive years during BTech program</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Email: <a href="mailto:amratagill@gmail.com">amratagill@gmail.com</a></p>
-    <p>Phone: +91 8755701858</p>
-    <p>LinkedIn: <a href="https://www.linkedin.com/in/amrata-gill-055a40287/" target="_blank">View Profile</a></p>
-  </section>
+<!-- Publications -->
+<section class="pub">
+  <h2 class="section-title">Research and Publications</h2>
+  <div class="pub-card">
+    <h3 class="pub-title">Novel Scheduling Heuristics for a Truck-and-Drone Parcel Delivery Problem</h3>
+    <div class="pub-detail"><span class="pub-label">Published in:</span> Applied Intelligence in Human-Computer Interaction</div>
+    <div class="pub-detail"><span class="pub-label">Publisher:</span> Taylor and Francis CRC Press</div>
+    <div class="pub-detail"><span class="pub-label">First Published:</span> August 15 2023</div>
+    <div class="pub-detail"><span class="pub-label">Author:</span> Amrita Gill Dayalbagh Educational Institute Agra India</div>
+    <div class="pub-detail"><span class="pub-label">Pages:</span> 316</div>
+    <div class="focus">
+      <h4>Research Focus</h4>
+      <p>This research addresses the optimization of delivery methods in the e-commerce industry exploring the use of drone-based delivery services alongside traditional truck delivery. The work contributes to the development of more efficient delivery methods that are being actively explored by major e-commerce and delivery companies.</p>
+    </div>
+  </div>
+</section>
 
-  <footer>
-    <p>© 2025 Amrata Swami</p>
-  </footer>
+<!-- Projects -->
+<section class="dark">
+  <h2 class="section-title">Featured Project Multilingual Learning Platform</h2>
+  <div class="project-grid">
+    <div class="card">
+      <h3>Project Overview</h3>
+      <p class="desc">Developed a comprehensive language learning platform with digital assessments for high school students focusing on Indian regional languages to promote linguistic diversity and cultural preservation.</p>
+      <div>Tech: HTML, JavaScript, PHP, AJAX, Bootstrap, MySQL</div>
+      <div>Community driven initiative</div>
+    </div>
+    <div class="card">
+      <h3>Key Features</h3>
+      <ul class="features">
+        <li>Self-paced interactive lessons with multimedia content</li>
+        <li>Gamified quizzes and storytelling exercises</li>
+        <li>Audio, video, and animation integration</li>
+        <li>Digital language proficiency assessments</li>
+      </ul>
+    </div>
+  </div>
+  <div class="lang-banner">
+    <h3>Supported Languages</h3>
+    <span class="lang-tag">Punjabi</span>
+    <span class="lang-tag">Odiya</span>
+    <span class="lang-tag">Bengali</span>
+    <span class="lang-tag">Tamil</span>
+    <span class="lang-tag">Telugu</span>
+  </div>
+</section>
 
-  <script src="script.js"></script>
+<!-- Community Impact -->
+<section class="white">
+  <h2 class="section-title">Community Impact Projects</h2>
+  <div class="comm yellow">
+    <h3>UID Project</h3>
+    <p class="comm-desc">Generated unique identification numbers for every community member.</p>
+    <div class="highlight-grid">
+      <div class="highlight yellow"><div class="highlight-title">Team Leadership</div><div class="highlight-text">Led team of 11</div></div>
+      <div class="highlight yellow"><div class="highlight-title">Database Design</div><div class="highlight-text">MySQL optimization</div></div>
+      <div class="highlight yellow"><div class="highlight-title">Performance</div><div class="highlight-text">Monitoring backup</div></div>
+    </div>
+  </div>
+  <div class="comm blue">
+    <h3>Licensee Form Project</h3>
+    <p class="comm-desc">Automated generation of legal documents for community housing.</p>
+    <div class="highlight-grid">
+      <div class="highlight blue"><div class="highlight-title">Efficiency</div><div class="highlight-text">Reduced manual effort by 50%</div></div>
+      <div class="highlight blue"><div class="highlight-title">Automation</div><div class="highlight-text">VBScript document generation</div></div>
+      <div class="highlight blue"><div class="highlight-title">Database</div><div class="highlight-text">Structured MySQL design</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact">
+  <h2>Contact Me</h2>
+  <p class="subtitle">I am open to exciting software development opportunities, research collaborations, and community initiatives.</p>
+  <div class="contact-grid">
+    <a class="contact-card" href="mailto:amratagill@gmail.com">
+      <div class="contact-icon">📧</div>
+      <div class="contact-title">Email</div>
+      <div class="contact-text">amratagill@gmail.com</div>
+    </a>
+    <a class="contact-card" href="tel:+14126792755">
+      <div class="contact-icon">📞</div>
+      <div class="contact-title">Phone</div>
+      <div class="contact-text">+1 412-679-2755</div>
+    </a>
+    <a class="contact-card" href="https://www.linkedin.com/in/amrata-swami">
+      <div class="contact-icon">🔗</div>
+      <div class="contact-title">LinkedIn</div>
+      <div class="contact-text">linkedin.com/in/amrata-swami</div>
+    </a>
+  </div>
+  <div class="mission">
+    <h3>Mission Statement</h3>
+    <p>Empowering communities through technology, bridging the gap between knowledge and accessibility, and fostering innovation with social responsibility.</p>
+  </div>
+</section>
+
+<!-- GSAP Animations -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Hero animation
+  gsap.timeline()
+    .from(".hero h1", {y:-50,opacity:0,duration:1})
+    .from(".hero h2",{y:-50,opacity:0,duration:1},"-=0.5")
+    .from(".badge",{scale:0,opacity:0,duration:0.8},"-=0.5")
+    .from(".hero-text",{y:50,opacity:0,duration:1},"-=0.5")
+    .from(".links",{y:50,opacity:0,stagger:0.2,duration:1},"-=0.5");
+
+  // Scroll-triggered animations
+  gsap.utils.toArray(".section-title, .grid, .timeline, .edu, .achieve, .pub-card, .project-grid, .lang-banner, .comm, .contact").forEach(el=>{
+    gsap.from(el,{
+      scrollTrigger:{trigger:el,start:"top 80%"},
+      y:50,
+      opacity:0,
+      duration:1,
+      ease:"power3.out"
+    });
+  });
+</script>
+
 </body>
 </html>
+
