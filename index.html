@@ -3,125 +3,594 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Amrata Swami Portfolio</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Amrata Swami - ASCII Portfolio</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Courier New', monospace; 
+      background: #000; 
+      color: #0f0; 
+      overflow-x: hidden;
+      line-height: 1.6;
+      padding: 20px;
+      position: relative;
+    }
+    
+    .matrix-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .terminal-window {
+      border: 2px solid #0f0;
+      background: rgba(0, 0, 0, 0.95);
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+      transition: all 0.3s;
+    }
+    
+    .terminal-window:hover {
+      box-shadow: 0 0 40px rgba(0, 255, 0, 0.6);
+    }
+    
+    .terminal-header {
+      border-bottom: 2px solid #0f0;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      color: #0f0;
+      font-size: 16px;
+    }
+    
+    .section-title {
+      font-size: 28px;
+      color: #0ff;
+      text-align: center;
+      margin-bottom: 25px;
+      text-shadow: 0 0 15px #0ff;
+      letter-spacing: 3px;
+    }
+    
+    .section-title::before,
+    .section-title::after {
+      content: "===";
+      margin: 0 15px;
+      color: #0f0;
+    }
+    
+    .hero-text {
+      text-align: center;
+      font-size: 32px;
+      color: #0f0;
+      margin: 20px 0;
+      text-shadow: 0 0 20px #0f0;
+      font-weight: bold;
+    }
+    
+    .command {
+      color: #0f0;
+      margin: 15px 0 10px 0;
+      font-size: 16px;
+    }
+    
+    .command::before {
+      content: "$ ";
+      color: #0ff;
+      font-weight: bold;
+    }
+    
+    .output {
+      color: #fff;
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+    
+    .card {
+      border: 1px solid #0f0;
+      padding: 20px;
+      margin: 15px 0;
+      background: rgba(0, 40, 0, 0.3);
+      transition: all 0.3s;
+    }
+    
+    .card:hover {
+      border-color: #0ff;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+      transform: translateX(5px);
+    }
+    
+    .card-title {
+      color: #0ff;
+      font-size: 20px;
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px #0ff;
+      font-weight: bold;
+    }
+    
+    .tag {
+      display: inline-block;
+      border: 1px solid #0f0;
+      padding: 5px 12px;
+      margin: 5px;
+      color: #0f0;
+      background: rgba(0, 255, 0, 0.1);
+      transition: all 0.2s;
+    }
+    
+    .tag:hover {
+      background: rgba(0, 255, 0, 0.3);
+      box-shadow: 0 0 15px #0f0;
+      transform: scale(1.05);
+    }
+    
+    .link {
+      color: #0ff;
+      text-decoration: none;
+      margin: 10px 15px;
+      transition: all 0.3s;
+    }
+    
+    .link:hover {
+      text-shadow: 0 0 15px #0ff;
+    }
+    
+    .link::before {
+      content: ">> ";
+      color: #0f0;
+    }
+    
+    .badge-current {
+      display: inline-block;
+      border: 2px solid #f0f;
+      color: #f0f;
+      padding: 5px 15px;
+      margin: 10px 0;
+      text-shadow: 0 0 10px #f0f;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 10px #f0f; }
+      50% { box-shadow: 0 0 25px #f0f; }
+    }
+    
+    .achievement {
+      color: #ff0;
+      text-shadow: 0 0 10px #ff0;
+      font-weight: bold;
+    }
+    
+    .year {
+      color: #ff0;
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: 15px;
+    }
+    
+    strong {
+      color: #0ff;
+    }
+    
+    @media (max-width: 768px) {
+      .hero-text { font-size: 24px; }
+      .section-title { font-size: 22px; }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <h1>Amrata Swami</h1>
-    <h2>Software Developer</h2>
-    <div class="badge">12 Years Experience</div>
-    <p class="hero-text">
-      Leveraging software engineering and analytics expertise to drive impactful, socially responsible innovation and empower others through technology.
-    </p>
-    <div class="links">
-      <a href="mailto:amratagill@gmail.com" class="link">Email: amratagill@gmail.com</a>
-      <a href="tel:+14126792755" class="link">Phone: +1 412-679-2755</a>
-    </div>
-  </section>
+<canvas class="matrix-bg"></canvas>
 
-  <!-- Technical Expertise Section -->
-  <section class="dark">
-    <h2 class="section-title">Technical Expertise</h2>
-    <div class="grid">
-      <div class="card">
-        <h3>Programming Languages</h3>
-        <div class="tags">
-          <span class="tag">C</span>
-          <span class="tag">C++</span>
-          <span class="tag">C#</span>
-          <span class="tag">Java</span>
-          <span class="tag">Python</span>
-          <span class="tag">Android</span>
-        </div>
-      </div>
-      <div class="card">
-        <h3>Databases</h3>
-        <div class="tags">
-          <span class="tag">MySQL</span>
-          <span class="tag">Oracle</span>
-          <span class="tag">Databricks</span>
-          <span class="tag">Snowflake</span>
-        </div>
-      </div>
-    </div>
-  </section>
+<div class="container">
 
-  <!-- Work Experience Section -->
-  <section class="dark work-experience">
-    <h2 class="section-title">Work Experience</h2>
-    <div class="grid">
-      <div class="card">
-        <h3>Cignex Technologies</h3>
-        <p><strong>Role:</strong> Software Engineer</p>
-        <p>Worked on NLP models, machine learning, deep learning, data mining, interactive dashboards, and root cause analysis.</p>
-        <p><strong>Duration:</strong> 2023 – Present</p>
-      </div>
-      <div class="card">
-        <h3>MHRD & Community Projects</h3>
-        <p><strong>Role:</strong> System Analyst</p>
-        <p>Led UID project, Licensee Form automation, and Multilingual learning platform development.</p>
-        <p><strong>Duration:</strong> 2010 – 2023</p>
-      </div>
-      <div class="card">
-        <h3>Infosys</h3>
-        <p><strong>Role:</strong> Software Engineer</p>
-        <p>Contributed to corporate projects before moving to community-focused projects in Agra.</p>
-        <p><strong>Duration:</strong> Before 2010</p>
-      </div>
+  <!-- HERO -->
+  <div class="terminal-window">
+    <div class="terminal-header">root@amrata-portfolio:~#</div>
+    
+    <div class="hero-text">AMRATA SWAMI</div>
+    
+    <div class="command">cat /etc/profile</div>
+    <div class="output">SOFTWARE DEVELOPER | MS COMPUTER SCIENCE STUDENT</div>
+    <div class="output">University of Pittsburgh | 12+ Years Experience</div>
+    <div class="output" style="color: #0ff; margin-top: 15px;">
+      "Leveraging software engineering and analytics expertise<br>
+      to drive impactful, socially responsible innovation<br>
+      and empower others through technology."
     </div>
-  </section>
+    
+    <div style="text-align: center; margin-top: 30px;">
+      <a href="mailto:amratagill@gmail.com" class="link">amratagill@gmail.com</a>
+      <a href="tel:+14126792755" class="link">+1-412-679-2755</a>
+      <a href="https://www.linkedin.com/in/amrata-gill" class="link">LinkedIn</a>
+    </div>
+  </div>
 
-  <!-- Education Section -->
-  <section>
-    <h2 class="section-title">Education</h2>
-    <div class="grid education-grid">
-      <div class="card">
-        <h3>University of Pittsburgh</h3>
-        <p><strong>Degree:</strong> M.S. in Computer Science</p>
-        <p><strong>Duration:</strong> 2025 – 2027</p>
-      </div>
-      <div class="card">
-        <h3>Biju Patnaik University</h3>
-        <p><strong>Degree:</strong> B.Tech in Electrical and Electronics Engineering</p>
-      </div>
-      <div class="card">
-        <h3>Dayalbagh Educational Institute, Agra</h3>
-        <p><strong>Degree:</strong> M.Tech in System Engineering</p>
-        <p><strong>Achievements:</strong> Director's Medal</p>
-        <p><strong>Duration:</strong> 2011 – 2013</p>
-      </div>
+  <!-- ABOUT -->
+  <div class="terminal-window">
+    <div class="section-title">ABOUT_ME</div>
+    <div class="command">cat about.txt</div>
+    <div class="output">
+      Graduate student in Computer Science at the University of Pittsburgh with 7+ years of experience 
+      in software engineering, machine learning, and data analytics. Currently conducting research on 
+      <span style="color: #0ff;">VideoLLM and BabyLM</span>, focusing on large-scale language and video models 
+      for multimodal content generation.<br><br>
+      
+      Passionate about creating <span style="color: #ff0;">social impact through technology</span>. 
+      Expert in designing data pipelines, building scalable databases, and developing ML-driven insights.<br><br>
+      
+      <span style="color: #f0f;">📍 Lives in India | Currently studying in Pittsburgh, PA</span>
     </div>
-  </section>
+    
+    <div class="command">cat interests.log</div>
+    <div class="output">
+      <span class="tag">🌱 Gardening</span>
+      <span class="tag">🍳 Cooking</span>
+      <span class="tag">🤖 AI Research</span>
+      <span class="tag">💡 Social Impact</span>
+    </div>
+  </div>
 
-  <!-- Projects Section -->
-  <section>
-    <h2 class="section-title">Projects</h2>
-    <div class="grid projects-grid">
-      <div class="card project-card">
-        <h3>UID Project</h3>
-        <p>Generated unique IDs for over 60,000 community members with a MySQL database.</p>
-      </div>
-      <div class="card project-card">
-        <h3>Licensee Form Automation</h3>
-        <p>Automated document generation with VBScript, reducing human effort by 50%.</p>
-      </div>
-      <div class="card project-card">
-        <h3>Multilingual Learning Platform</h3>
-        <p>Developed a platform with audio, video, and digital assessments for language learning.</p>
-      </div>
-      <div class="card project-card">
-        <h3>Truck-and-Drone Delivery Optimization</h3>
-        <p>Published paper on optimizing hybrid delivery systems using analytics and ML.</p>
+  <!-- SKILLS -->
+  <div class="terminal-window">
+    <div class="section-title">TECHNICAL_ARSENAL</div>
+    <div class="command">ls -la /skills/</div>
+    
+    <div class="output">
+      <div class="card-title">PROGRAMMING & ML:</div>
+      <span class="tag">Python</span>
+      <span class="tag">Pandas</span>
+      <span class="tag">NumPy</span>
+      <span class="tag">Scikit-learn</span>
+      <span class="tag">TensorFlow</span>
+      <span class="tag">PyTorch</span>
+      <span class="tag">NLTK</span>
+      <span class="tag">spaCy</span>
+      <span class="tag">Java</span>
+      <span class="tag">C</span>
+      <span class="tag">C++</span>
+      <span class="tag">C#</span>
+    </div>
+    
+    <div class="output">
+      <div class="card-title">DATABASES & CLOUD:</div>
+      <span class="tag">MySQL</span>
+      <span class="tag">Oracle</span>
+      <span class="tag">PostgreSQL</span>
+      <span class="tag">IBM DB2</span>
+      <span class="tag">Snowflake</span>
+      <span class="tag">Databricks</span>
+      <span class="tag">AWS</span>
+    </div>
+
+    <div class="output">
+      <div class="card-title">DATA VIZ & TOOLS:</div>
+      <span class="tag">Power BI</span>
+      <span class="tag">Tableau</span>
+      <span class="tag">Excel</span>
+      <span class="tag">ServiceNow</span>
+      <span class="tag">Git</span>
+      <span class="tag">MATLAB</span>
+    </div>
+
+    <div class="output">
+      <div class="card-title">WEB TECHNOLOGIES:</div>
+      <span class="tag">HTML5</span>
+      <span class="tag">CSS3</span>
+      <span class="tag">JavaScript</span>
+      <span class="tag">React</span>
+      <span class="tag">PHP</span>
+      <span class="tag">AJAX</span>
+      <span class="tag">Bootstrap</span>
+    </div>
+  </div>
+
+  <!-- WORK EXPERIENCE -->
+  <div class="terminal-window">
+    <div class="section-title">WORK_EXPERIENCE</div>
+    <div class="command">git log --professional --graph</div>
+    
+    <div class="card">
+      <div class="card-title">SENIOR ENGINEER: NETWORKING INFRASTRUCTURE</div>
+      <div class="output">
+        <strong>COMPANY:</strong> Cignex Technologies (Client: AON)<br>
+        <strong>DURATION:</strong> Mar 2022 – Jul 2025<br><br>
+        
+        • Developed deep learning-based intelligent routing engine in ServiceNow<br>
+        • Trained ML models for predictive analytics (30% accuracy improvement)<br>
+        • Built interactive dashboards with React and JavaScript<br>
+        • Administered Oracle, MySQL, PostgreSQL, IBM DB2, UNIX/Linux systems
       </div>
     </div>
-  </section>
-<!--
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="script.js"></script>
-  -->
+    
+    <div class="card">
+      <div class="card-title">LECTURER - COMPUTER SCIENCE</div>
+      <div class="output">
+        <strong>INSTITUTION:</strong> Dayalbagh Educational Institute<br>
+        <strong>DURATION:</strong> Oct 2015 – Sep 2022<br><br>
+        
+        • Taught databases and programming to 100+ students per semester<br>
+        • Supervised software development and data application projects<br>
+        • Guided students in mobile apps, embedded systems projects
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">SYSTEM ANALYST</div>
+      <div class="output">
+        <strong>PROJECT:</strong> MHRD, Dayalbagh Educational Institute<br>
+        <strong>DURATION:</strong> Dec 2010 – Sep 2014<br><br>
+        
+        • Led cross-functional teams for course management system<br>
+        • Designed database architecture and workflow automation<br>
+        • Managed full project lifecycle (requirements → deployment)
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">SOFTWARE ENGINEER</div>
+      <div class="output">
+        <strong>COMPANY:</strong> Infosys (Client: Pfizer)<br>
+        <strong>DURATION:</strong> Jun 2007 – Oct 2010<br><br>
+        
+        • Designed and optimized Oracle and MS SQL Server databases<br>
+        • Developed PERL utility programs for data automation<br>
+        • Led incident, change, and problem management processes
+      </div>
+    </div>
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="terminal-window">
+    <div class="section-title">EDUCATION</div>
+    <div class="command">cat /education/degrees.log</div>
+    
+    <div class="card" style="border-color: #f0f;">
+      <div class="card-title">UNIVERSITY OF PITTSBURGH</div>
+      <div class="output">
+        <strong>DEGREE:</strong> M.S. in Computer Science<br>
+        <strong>DURATION:</strong> 2025 – 2027<br>
+        <strong>COURSEWORK:</strong> Algorithms, AI Foundations, Compiler Design<br>
+        <span class="badge-current">[CURRENT STUDY]</span>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">DAYALBAGH EDUCATIONAL INSTITUTE</div>
+      <div class="output">
+        <strong>DEGREE:</strong> M.Tech in Engineering System<br>
+        <strong>GPA:</strong> 9.703/10<br>
+        <strong>DURATION:</strong> 2020 – 2023<br>
+        <span class="achievement">★★★ DIRECTOR'S MEDAL (TOP RANK) ★★★</span>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">PADMANAVA COLLEGE (BPUT)</div>
+      <div class="output">
+        <strong>DEGREE:</strong> B.Tech in Electrical & Electronics Engineering<br>
+        <strong>GPA:</strong> 8.43/10<br>
+        <strong>DURATION:</strong> 2003 – 2007<br>
+        <span class="achievement">★ ACADEMIC EXCELLENCE AWARD (3 YEARS) ★</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CERTIFICATIONS -->
+  <div class="terminal-window">
+    <div class="section-title">CERTIFICATIONS</div>
+    <div class="command">ls /certifications/*.cert</div>
+    
+    <div class="output">
+      <div class="year">2008</div>
+      <div class="tag">Oracle Certified Associate (1Z0-007, 1Z0-147)</div>
+      
+      <div class="year">2011</div>
+      <div class="tag">IBM Database2 Universal Database (000-700)</div>
+      
+      <div class="year">2012</div>
+      <div class="tag">Programming with JavaScript, HTML & CSS (Duke)</div>
+      
+      <div class="year">2018</div>
+      <div class="tag">Java for Android (Vanderbilt)</div>
+      
+      <div class="year">2022</div>
+      <div class="tag">Android App Components: Intents & Activities</div>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="terminal-window">
+    <div class="section-title">FEATURED_PROJECTS</div>
+    <div class="command">tree /projects</div>
+    
+    <div class="card">
+      <div class="card-title">UID_SYSTEM [COMMUNITY_IMPACT]</div>
+      <div class="output">
+        <strong>SCOPE:</strong> Generated unique IDs for 60,000+ community members<br>
+        <strong>TECH:</strong> MySQL, Database Optimization, Backup Automation<br>
+        <strong>ROLE:</strong> Team Lead (11 members)<br><br>
+        
+        Led data collection, validation, and optimization. Designed scalable MySQL database 
+        with automated backup/restore and performance monitoring.
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">LICENSEE_FORM_AUTOMATION</div>
+      <div class="output">
+        <strong>IMPACT:</strong> Reduced human effort by 50%<br>
+        <strong>TECH:</strong> VBScript, PHP, MySQL<br><br>
+        
+        Automated legal document generation for housing data. Created optimized database 
+        and PHP-based application for yearly document generation.
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">MULTILINGUAL_LEARNING_PLATFORM</div>
+      <div class="output">
+        <strong>LANGUAGES:</strong> Punjabi, Odiya, Bengali, Tamil, Telugu<br>
+        <strong>TECH:</strong> HTML5, JavaScript, PHP, AJAX, Bootstrap, MySQL<br><br>
+        
+        Developed language-learning platform with multimedia content and digital 
+        proficiency assessments for high school students.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">VIDEOLLM_RESEARCH [CURRENT]</div>
+      <div class="output">
+        <strong>INSTITUTION:</strong> University of Pittsburgh<br>
+        <strong>FOCUS:</strong> Large-scale language and video models<br><br>
+        
+        Researching multimodal content generation. Designing architectures for sequence 
+        modelling and applying NLP techniques for recommendation systems.
+      </div>
+    </div>
+  </div>
+
+  <!-- PUBLICATIONS -->
+  <div class="terminal-window">
+    <div class="section-title">PUBLICATIONS</div>
+    <div class="command">grep -r "published" /research/</div>
+    
+    <div class="card">
+      <div class="card-title">[PUBLISHED] Truck-and-Drone Delivery</div>
+      <div class="output">
+        <strong>TITLE:</strong> "Novel Scheduling Heuristics for a Truck-and-Drone Parcel Delivery Problem"<br>
+        <strong>PUBLISHER:</strong> Taylor & Francis (2023)<br>
+        <strong>BOOK:</strong> Applied Intelligence in Human-Computer Interaction<br>
+        <strong>DOI:</strong> <a href="https://doi.org/10.1201/9781003415466" style="color: #0ff;">10.1201/9781003415466</a><br><br>
+        
+        Developed hybrid heuristic algorithms to optimize multi-modal last-mile delivery.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">[UNDER REVIEW] Drone Safety-Aware EV Routing</div>
+      <div class="output">
+        <strong>JOURNAL:</strong> Applied Soft Computing, Elsevier<br>
+        <strong>STATUS:</strong> <span style="color: #f0f;">Under Review</span><br><br>
+        
+        Hybrid genetic algorithms with parallel computation for safe drone and EV routing.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">[RESEARCH] EV and UAV Routing</div>
+      <div class="output">
+        Genetic algorithm-based solutions for scalable routing optimization in delivery networks.
+      </div>
+    </div>
+  </div>
+
+  <!-- ACHIEVEMENTS -->
+  <div class="terminal-window">
+    <div class="section-title">ACHIEVEMENTS</div>
+    <div class="command">cat achievements.log | sort -r</div>
+    
+    <div class="output">
+      <div class="year">2023</div>
+      <div class="achievement">★ Published Research in Taylor & Francis</div>
+      <div style="color: #fff; margin-bottom: 20px;">AI-driven logistics optimization</div>
+      
+      <div class="year">2020-2023</div>
+      <div class="achievement">★★★ DIRECTOR'S MEDAL - M.TECH</div>
+      <div style="color: #fff; margin-bottom: 20px;">Highest GPA (9.703/10)</div>
+      
+      <div class="year">2004-2007</div>
+      <div class="achievement">★ ACADEMIC EXCELLENCE AWARD</div>
+      <div style="color: #fff; margin-bottom: 20px;">Three consecutive years during B.Tech</div>
+      
+      <div class="year">2010-2023</div>
+      <div class="achievement">★ COMMUNITY IMPACT PROJECTS</div>
+      <div style="color: #fff;">Affecting 60,000+ people</div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="terminal-window">
+    <div class="section-title">CONNECT</div>
+    <div class="command">ssh amrata@contact.dev</div>
+    
+    <div class="output" style="text-align: center; font-size: 18px; margin-top: 30px;">
+      <div style="margin: 20px 0;">
+        <span style="color: #0ff;">EMAIL:</span> 
+        <a href="mailto:amratagill@gmail.com" style="color: #0ff;">amratagill@gmail.com</a>
+      </div>
+      
+      <div style="margin: 20px 0;">
+        <span style="color: #0ff;">PHONE:</span> 
+        <a href="tel:+14126792755" style="color: #0ff;">+1 (412) 679-2755</a>
+      </div>
+      
+      <div style="margin: 20px 0;">
+        <span style="color: #0ff;">LINKEDIN:</span> 
+        <a href="https://www.linkedin.com/in/amrata-gill" style="color: #0ff;">linkedin.com/in/amrata-gill</a>
+      </div>
+
+      <div style="margin: 40px 0; color: #fff; font-size: 16px;">
+        Ready to collaborate on impactful projects! ✨
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Matrix rain effect
+const canvas = document.querySelector('.matrix-bg');
+const ctx = canvas.getContext('2d');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const chars = '@#$%&*0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+const drops = [];
+
+for (let i = 0; i < columns; i++) {
+  drops[i] = Math.random() * -100;
+}
+
+function drawMatrix() {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  ctx.fillStyle = '#0f0';
+  ctx.font = fontSize + 'px monospace';
+  
+  for (let i = 0; i < drops.length; i++) {
+    const text = chars[Math.floor(Math.random() * chars.length)];
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+    
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+      drops[i] = 0;
+    }
+    drops[i]++;
+  }
+}
+
+setInterval(drawMatrix, 50);
+
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+</script>
+
 </body>
 </html>
